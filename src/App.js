@@ -1,52 +1,56 @@
-import { Component } from 'react';
-import './App.css';
+import { Component } from "react";
+import "./App.css";
 
-import SearchBox from './components/search-box/search-box.component';
-import CardList from './components/card-list/card-list.component';
+import SearchBox from "./components/search-box/search-box.component";
+import CardList from "./components/card-list/card-list.component";
 
 class App extends Component {
   constructor() {
     super();
 
     this.state = {
-      friends: [],
-      searchString: ''
+      cats: [],
+      searchString: "",
     };
   }
 
   componentDidMount() {
-    fetch('https://jsonplaceholder.typicode.com/users')
-    .then(response => response.json())
-    .then((users) => this.setState(() => {
-      return {friends: users};
-    }))
+    fetch("https://jsonplaceholder.typicode.com/users")
+      .then((response) => response.json())
+      .then((users) =>
+        this.setState(() => {
+          return { cats: users };
+        })
+      );
   }
 
   onSearch = (event) => {
     const searchString = event.target.value.toLocaleLowerCase();
-    
 
     this.setState(() => {
-      return {searchString};
-    })
-  }
-  
+      return { searchString };
+    });
+  };
+
   render() {
-    const { friends, searchString } = this.state;
+    const { cats, searchString } = this.state;
     const { onSearch } = this;
 
-    const filteredFriends = friends.filter((friend) => {
-      return friend.name.toLocaleLowerCase().includes(searchString);
+    const filteredcats = cats.filter((cat) => {
+      return cat.name.toLocaleLowerCase().includes(searchString);
     });
 
     return (
       <div className="App">
-        <SearchBox className = "search-box" placeholder = "search friends" onChangeHandler = {onSearch}/>
-        <CardList list = {filteredFriends} />
+        <SearchBox
+          className="search-box"
+          placeholder="search cats"
+          onChangeHandler={onSearch}
+        />
+        <CardList cats={filteredcats} />
       </div>
     );
   }
-  
 }
 
 export default App;
